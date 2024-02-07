@@ -1,7 +1,9 @@
 ﻿using MultiThreading.DomainModels.Models;
 using MultiThreading.TxtParser.Converters;
+using MultiThreading.TxtParser.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,10 @@ namespace MultiThreading.TxtParser.Services
 	{
 		private const string Student = "Student";
 		private const string Professor = "Professor";
+		private const string errorFilePath = "error";
+		private const string passedStudentsFilePath = "";
+		private const string failedStudentsFilePath = "";
+		private const string professorsFilePath = "";
 
 		public static Person Parse(string txtLine)
 		{
@@ -35,6 +41,31 @@ namespace MultiThreading.TxtParser.Services
 				return new Professor(oib, name, gender.Value, dateOfBirth.Value, paycheck.Value);
 			}
 			return null!;
+		}
+
+		public static async Task ParseToTxt(Person person)
+		{
+			string txtLine = "";
+			if (person == null)
+			{
+				txtLine = "error;error;error;error;error;error;error";
+				await TxtFileService.Write(txtLine, errorFilePath);
+			}
+			else if(person is Student)
+			{
+				var student = (Student)person;
+				txtLine = student.Oib! + ";" + student.Name + ";" + student.Gender + ";" + student.DateOfBirth + ";" + student.AverageGrade;
+				if (student.AverageGrade > 1)
+					await TxtFileService.Write(txtLine, passedStudentsFilePath);
+				else
+					await TxtFileService.Write(txtLine, failedStudentsFilePath);
+			}
+			else if(person is Professor)
+			{
+				var professor = (Professor)person;
+				txtLine = professor.Oib! + ";" + professor.Name + ";" + professor.Gender + ";" + professor.DateOfBirth + ";" + professor.Paycheck;
+				await TxtFileService.Write(txtLine, professorsFilePath);
+			}
 		}
 	}
 }
