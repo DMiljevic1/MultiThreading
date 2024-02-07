@@ -10,14 +10,14 @@ namespace MultiThreading.TxtParser
 	public class Producer
 	{
 		private readonly SharedBuffer _buffer;
-		private const string filename = "";
+		private const string filePath = "C:\\Users\\dujem\\OneDrive\\Documents\\data2.txt";
 		public Producer(SharedBuffer buffer)
 		{
 			_buffer = buffer;
 		}
 		public async Task Produce()
 		{
-			using (var reader = new StreamReader(filename))
+			using (var reader = new StreamReader(filePath))
 			{
 				while (!reader.EndOfStream)
 				{
