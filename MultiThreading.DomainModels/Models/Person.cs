@@ -13,13 +13,15 @@ namespace MultiThreading.DomainModels.Models
 		public string? Name { get; set; }
 		public Gender Gender { get; set; }
 		public DateOnly DateOfBirth { get; set; }
+		public bool Error { get; set; }
 
-		protected Person(string oib, string name, Gender gender, DateOnly dateOfBirth)
+		protected Person(string oib, string name, Gender gender, DateOnly dateOfBirth, bool error)
 		{
 			Oib = oib;
 			Name = name;
 			Gender = gender;
 			DateOfBirth = dateOfBirth;
+			Error = error;
 		}
 
 		protected Person() { }

@@ -11,7 +11,7 @@ namespace MultiThreading.DomainModels.Models
 	{
 		public double AverageGrade { get; set; }
 
-		public Student(string oib, string name, Gender gender, DateOnly dateOfBirth, double averageGrade) : base(oib, name, gender, dateOfBirth)
+		public Student(string oib, string name, Gender gender, DateOnly dateOfBirth, bool error, double averageGrade) : base(oib, name, gender, dateOfBirth, error)
 		{
 			AverageGrade = averageGrade;
 		}
