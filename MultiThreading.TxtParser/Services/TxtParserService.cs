@@ -1,6 +1,5 @@
 ﻿using MultiThreading.DomainModels.Models;
 using MultiThreading.TxtParser.Converters;
-using MultiThreading.TxtParser.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,15 +29,15 @@ namespace MultiThreading.TxtParser.Services
 			{
 				var averageGrade = Converter.ConvertStringToDouble(splittedRow[5]);
 				if (!gender.HasValue || !dateOfBirth.HasValue || !averageGrade.HasValue)
-					return null!;
-				return new Student(oib, name, gender.Value, dateOfBirth.Value, averageGrade.Value);
+					return new Student(oib, name, gender.GetValueOrDefault(), dateOfBirth.GetValueOrDefault(), true, averageGrade.GetValueOrDefault());
+				return new Student(oib, name, gender.Value, dateOfBirth.Value, false, averageGrade.Value);
 			}
 			else if (splittedRow[0].Equals(Professor))
 			{
 				var paycheck = Converter.ConvertStringToDecimal(splittedRow[6]);
 				if (!gender.HasValue || !dateOfBirth.HasValue || !paycheck.HasValue)
-					return null!;
-				return new Professor(oib, name, gender.Value, dateOfBirth.Value, paycheck.Value);
+					return new Professor(oib, name, gender.GetValueOrDefault(), dateOfBirth.GetValueOrDefault(), true, paycheck.GetValueOrDefault());
+				return new Professor(oib, name, gender.Value, dateOfBirth.Value, false, paycheck.Value);
 			}
 			return null!;
 		}
@@ -49,6 +48,12 @@ namespace MultiThreading.TxtParser.Services
 			if (person == null)
 			{
 				txtLine = "error;error;error;error;error;error;error";
+				await TxtFileService.Write(txtLine, errorFilePath);
+			}
+			else if(person.Error)
+			{
+				string personType = person is Student ? "student" : "professor";
+				txtLine = personType + ";error;error;error;error;error;error";
 				await TxtFileService.Write(txtLine, errorFilePath);
 			}
 			else if(person is Student)

@@ -10,7 +10,7 @@ namespace MultiThreading.DomainModels.Models
 	public class Professor : Person
 	{
 		public decimal Paycheck { get; set; }
-		public Professor(string oib, string name, Gender gender, DateOnly dateOfBirth, decimal paycheck) : base(oib, name, gender, dateOfBirth)
+		public Professor(string oib, string name, Gender gender, DateOnly dateOfBirth, bool error, decimal paycheck) : base(oib, name, gender, dateOfBirth, error)
 		{
 			Paycheck = paycheck;
 		}
