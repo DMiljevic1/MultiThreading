@@ -13,10 +13,10 @@ namespace MultiThreading.TxtParser.Services
 	{
 		private const string Student = "Student";
 		private const string Professor = "Professor";
-		private const string errorFilePath = "error";
-		private const string passedStudentsFilePath = "";
-		private const string failedStudentsFilePath = "";
-		private const string professorsFilePath = "";
+		private const string errorFilePath = "C:\\Users\\dujem\\OneDrive\\Documents\\error-rows.txt";
+		private const string passedStudentsFilePath = "C:\\Users\\dujem\\OneDrive\\Documents\\passed-students.txt";
+		private const string failedStudentsFilePath = "C:\\Users\\dujem\\OneDrive\\Documents\\failed-students.txt";
+		private const string professorsFilePath = "C:\\Users\\dujem\\OneDrive\\Documents\\professors.txt";
 
 		public static Person Parse(string txtLine)
 		{
@@ -48,12 +48,14 @@ namespace MultiThreading.TxtParser.Services
 			if (person == null)
 			{
 				txtLine = "error;error;error;error;error;error;error";
-				await TxtFileService.Write(txtLine, errorFilePath);
+				Console.ForegroundColor = ConsoleColor.Red;
+                await TxtFileService.Write(txtLine, errorFilePath);
 			}
 			else if(person.Error)
 			{
-				string personType = person is Student ? "student" : "professor";
+				string personType = person is Student ? Student : Professor;
 				txtLine = personType + ";error;error;error;error;error;error";
+				Console.ForegroundColor = ConsoleColor.Red;
 				await TxtFileService.Write(txtLine, errorFilePath);
 			}
 			else if(person is Student)
@@ -61,16 +63,24 @@ namespace MultiThreading.TxtParser.Services
 				var student = (Student)person;
 				txtLine = student.Oib! + ";" + student.Name + ";" + student.Gender + ";" + student.DateOfBirth + ";" + student.AverageGrade;
 				if (student.AverageGrade > 1)
+				{
 					await TxtFileService.Write(txtLine, passedStudentsFilePath);
+					Console.ForegroundColor = ConsoleColor.Yellow;
+				}
 				else
+				{
 					await TxtFileService.Write(txtLine, failedStudentsFilePath);
+					Console.ForegroundColor = ConsoleColor.Green;
+				}
 			}
 			else if(person is Professor)
 			{
 				var professor = (Professor)person;
 				txtLine = professor.Oib! + ";" + professor.Name + ";" + professor.Gender + ";" + professor.DateOfBirth + ";" + professor.Paycheck;
 				await TxtFileService.Write(txtLine, professorsFilePath);
+				Console.ForegroundColor = ConsoleColor.Blue;
 			}
+			await Console.Out.WriteLineAsync(txtLine);
 		}
 	}
 }

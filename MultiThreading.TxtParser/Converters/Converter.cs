@@ -31,9 +31,8 @@ namespace MultiThreading.TxtParser.Converters
 			{
 				return decimal.Parse(value, CultureInfo.InvariantCulture);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
-				Console.WriteLine("Error while parsing string value to double: " + e);
 				return null;
 			}
 		}
@@ -44,9 +43,8 @@ namespace MultiThreading.TxtParser.Converters
 			{
 				return double.Parse(value, CultureInfo.InvariantCulture);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
-				Console.WriteLine("Error while parsing string value to double: " + e);
 				return null;
 			}
 		}
