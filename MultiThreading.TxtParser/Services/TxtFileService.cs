@@ -10,7 +10,7 @@ namespace MultiThreading.TxtParser.Services
 	{
 		public static async Task Write(string txtLine, string filePath)
 		{
-			using (var writer = new StreamWriter(filePath))
+			using (var writer = new StreamWriter(filePath, true))
 			{
 				await writer.WriteLineAsync(txtLine);
 			}

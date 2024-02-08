@@ -10,7 +10,7 @@ namespace MultiThreading.TxtParser
 	public class Producer
 	{
 		private readonly SharedBuffer _buffer;
-		private const string filePath = "C:\\Users\\dujem\\OneDrive\\Documents\\data2.txt";
+		private const string filePath = "C:\\Users\\dujem\\OneDrive\\Documents\\data.txt";
 		public Producer(SharedBuffer buffer)
 		{
 			_buffer = buffer;

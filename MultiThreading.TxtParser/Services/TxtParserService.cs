@@ -39,7 +39,7 @@ namespace MultiThreading.TxtParser.Services
 					return new Professor(oib, name, gender.GetValueOrDefault(), dateOfBirth.GetValueOrDefault(), true, paycheck.GetValueOrDefault());
 				return new Professor(oib, name, gender.Value, dateOfBirth.Value, false, paycheck.Value);
 			}
-			return null!;
+			return null;
 		}
 
 		public static async Task ParseToTxt(Person person)
@@ -61,22 +61,22 @@ namespace MultiThreading.TxtParser.Services
 			else if(person is Student)
 			{
 				var student = (Student)person;
-				txtLine = student.Oib! + ";" + student.Name + ";" + student.Gender + ";" + student.DateOfBirth + ";" + student.AverageGrade;
+				txtLine = Student + student.Oib! + ";" + student.Name + ";" + student.Gender + ";" + student.DateOfBirth + ";" + student.AverageGrade;
 				if (student.AverageGrade > 1)
 				{
 					await TxtFileService.Write(txtLine, passedStudentsFilePath);
-					Console.ForegroundColor = ConsoleColor.Yellow;
+					Console.ForegroundColor = ConsoleColor.Green;
 				}
 				else
 				{
 					await TxtFileService.Write(txtLine, failedStudentsFilePath);
-					Console.ForegroundColor = ConsoleColor.Green;
+					Console.ForegroundColor = ConsoleColor.Yellow;
 				}
 			}
 			else if(person is Professor)
 			{
 				var professor = (Professor)person;
-				txtLine = professor.Oib! + ";" + professor.Name + ";" + professor.Gender + ";" + professor.DateOfBirth + ";" + professor.Paycheck;
+				txtLine = Professor + professor.Oib! + ";" + professor.Name + ";" + professor.Gender + ";" + professor.DateOfBirth + ";" + professor.Paycheck;
 				await TxtFileService.Write(txtLine, professorsFilePath);
 				Console.ForegroundColor = ConsoleColor.Blue;
 			}
